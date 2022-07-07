@@ -173,6 +173,9 @@ function s:with_preview(placeholder, custom_cmd, wrap) abort
     endif
     let wrapped_opts = fzf#vim#with_preview(
           \ placeholder_opt, preview_window_opt, g:coc_fzf_preview_toggle_key)
+    if empty(wrapped_opts)
+        return {}
+    endif
     let wrapped_opts.options += ['--delimiter=:']
     if !empty(a:custom_cmd)
       let preview_command_index = index(wrapped_opts.options, '--preview') + 1
