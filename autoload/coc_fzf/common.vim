@@ -176,7 +176,11 @@ function s:with_preview(placeholder, custom_cmd, wrap) abort
     if empty(wrapped_opts)
         return {}
     endif
-    let wrapped_opts.options += ['--delimiter=:']
+    if has_key(wrapped_opts, 'options')
+        let wrapped_opts.options += ['--delimiter=:']
+    else
+        let wrapped_opts.options = ['--delimiter=:']
+    endif
     if !empty(a:custom_cmd)
       let preview_command_index = index(wrapped_opts.options, '--preview') + 1
       let wrapped_opts.options[preview_command_index] = a:custom_cmd
