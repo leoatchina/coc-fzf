@@ -152,7 +152,7 @@ function s:with_preview(placeholder, custom_cmd, wrap) abort
   let preview_window_scroll_offset = '+{2}-5'
 
   let preview_window_opt = &columns >= 120 ? 'right' : ''
-  let toggle_key = ''
+  let toggle_key = '?'
   let fzf_preview_window = get(g:, 'fzf_preview_window', [])
   if len(fzf_preview_window) == 1
     let preview_window_opt = fzf_preview_window[0]
