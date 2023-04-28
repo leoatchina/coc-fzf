@@ -8,12 +8,6 @@ else
   let g:loaded_coc_fzf = 'yes'
 endif
 
-if !exists("g:coc_fzf_preview_toggle_key")
-    let g:coc_fzf_preview_toggle_key = '?'
-endif
-if !exists("g:coc_fzf_preview")
-    let g:coc_fzf_preview = 'up:50%'
-endif
 if !exists("g:coc_fzf_preview_fullscreen")
     let g:coc_fzf_preview_fullscreen = 0
 endif

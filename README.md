@@ -94,9 +94,7 @@ call coc_fzf#common#delete_list_source('fzf-buffers')
 
 | Option                         | Type   | Description                                                    | Default value               |
 | ---                            | ---    | ---                                                            | ---                         |
-| `g:coc_fzf_preview_toggle_key` | string | Change the key to toggle the preview window                    | `'?'`                       |
 | `g:coc_fzf_preview_fullscreen` | number | Set to 1 to use FZF fullscreen mode in coc-references etc.     | `0`                         |
-| `g:coc_fzf_preview`            | string | Change the preview window position                             | `'up:50%'`                  |
 | `g:coc_fzf_opts`               | array  | Pass additional parameters to fzf, e.g. `['--layout=reverse']` | `['--layout=reverse-list']` |
 | `g:coc_fzf_location_delay`     | number | Delay(ms) fzf_run() to solve weird race conditions.            | 0                           |
 
@@ -138,7 +136,6 @@ nmap <silent> gr <Plug>(coc-references)
 **Q**: CocFzf looks different from my other Fzf commands. How to make it the same?\
 **A**: By default, CocFzf tries to mimic CocList. Here is how to change this:
 ```vim
-let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
 ```
 

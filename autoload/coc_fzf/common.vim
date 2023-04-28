@@ -152,8 +152,16 @@ function s:with_preview(placeholder, custom_cmd, wrap) abort
   let preview_window_scroll_offset = '+{2}-5'
 
   if g:coc_fzf_preview_available
-    let preview_window_pos_size = get(g:, 'coc_fzf_preview', &columns >= 120 ? 'right': '')
-    if empty(preview_window_pos_size)
+    let preview_window_opt = &columns >= 120 ? 'right' : ''
+    let toggle_key = ''
+    let fzf_preview_window = get(g:, 'fzf_preview_window', [])
+    if len(fzf_preview_window) == 1
+      let preview_window_opt = fzf_preview_window[0]
+    elseif len(fzf_preview_window) > 1
+      let preview_window_opt = fzf_preview_window[0]
+      let toggle_key = fzf_preview_window[1]
+    endif
+    if empty(preview_window_opt)
       return {}
     endif
     if !empty(a:placeholder)
@@ -161,7 +169,6 @@ function s:with_preview(placeholder, custom_cmd, wrap) abort
       let scroll = split(a:placeholder, ':')[1]
       let preview_window_scroll_offset = '+' . scroll . '-5'
     endif
-    let preview_window_opt = preview_window_pos_size
     if a:wrap
       let preview_window_opt .= ":wrap"
     endif
@@ -169,7 +176,7 @@ function s:with_preview(placeholder, custom_cmd, wrap) abort
       let preview_window_opt .= ':' . preview_window_scroll_offset
     endif
     let wrapped_opts = fzf#vim#with_preview(
-          \ placeholder_opt, preview_window_opt, g:coc_fzf_preview_toggle_key)
+          \ placeholder_opt, preview_window_opt, toggle_key)
     let wrapped_opts.options += ['--delimiter=:']
     if !empty(a:custom_cmd)
       let preview_command_index = index(wrapped_opts.options, '--preview') + 1
