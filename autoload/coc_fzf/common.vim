@@ -149,15 +149,12 @@ endfunction
 function s:with_preview(placeholder, custom_cmd, wrap) abort
   let wrapped_opts = {}
   let placeholder_opt = {}
-  let preview_window_pos_size = g:coc_fzf_preview
   let preview_window_scroll_offset = '+{2}-5'
 
   if g:coc_fzf_preview_available
+    let preview_window_pos_size = get(g:, 'coc_fzf_preview', &columns >= 120 ? 'right': '')
     if empty(preview_window_pos_size)
-      let preview_window_pos_size = get(g:, 'fzf_preview_window', &columns >= 120 ? 'right': '')
-      if empty(preview_window_pos_size)
-        return {}
-      endif
+      return {}
     endif
     if !empty(a:placeholder)
       let placeholder_opt = {'placeholder': a:placeholder}
@@ -173,14 +170,7 @@ function s:with_preview(placeholder, custom_cmd, wrap) abort
     endif
     let wrapped_opts = fzf#vim#with_preview(
           \ placeholder_opt, preview_window_opt, g:coc_fzf_preview_toggle_key)
-    if empty(wrapped_opts)
-        return {}
-    endif
-    if has_key(wrapped_opts, 'options')
-        let wrapped_opts.options += ['--delimiter=:']
-    else
-        let wrapped_opts.options = ['--delimiter=:']
-    endif
+    let wrapped_opts.options += ['--delimiter=:']
     if !empty(a:custom_cmd)
       let preview_command_index = index(wrapped_opts.options, '--preview') + 1
       let wrapped_opts.options[preview_command_index] = a:custom_cmd
@@ -222,6 +212,7 @@ function coc_fzf#common#process_file_action(key, parsed_dict_list) abort
   let cmd = coc_fzf#common#get_action_from_key(a:key)
   let first = a:parsed_dict_list[0]
 
+  normal! m'
   if !empty(cmd)
     execute 'silent' cmd first["filename"]
   else
