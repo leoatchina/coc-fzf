@@ -17,6 +17,9 @@ function! coc_fzf#symbols#fzf_run(...) abort
     return
   endif
   let python3 = get(g:, 'python3_host_prog', 'python3')
+  if has('unix')
+    let python3 = substitute(python3, '\~', $HOME, "")
+  endif
   if !executable(python3)
     call coc_fzf#common#echom_error(string(python3) . ' is not executable.')
     call coc_fzf#common#echom_error('You need to set g:python3_host_prog.')
@@ -66,7 +69,7 @@ function! coc_fzf#symbols#fzf_run(...) abort
         \ 'source': initial_command,
         \ 'sink*': function('s:symbol_handler'),
         \ 'options': ['--multi','--expect='.expect_keys, '--bind', 'change:reload:'.reload_command,
-        \ '--phony', '-q', initial_query, '--ansi', '--prompt=' . s:prompt] + g:coc_fzf_opts,
+        \ '-q', initial_query, '--ansi', '--prompt=' . s:prompt] + g:coc_fzf_opts,
         \ }
   call coc_fzf#common#fzf_run_with_preview(opts, '{-3}:{-2}')
 endfunction
